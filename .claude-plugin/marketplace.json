@@ -1,0 +1,14 @@
+{
+  "name": "alloy",
+  "description": "Alloy: design your system in artifacts, generate the code from them",
+  "owner": {
+    "name": "Chris Doyle"
+  },
+  "plugins": [
+    {
+      "name": "alloy",
+      "source": "./",
+      "description": "A catalog of established software design artifact types, with skills that author them and check them for gaps"
+    }
+  ]
+}

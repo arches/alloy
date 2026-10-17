@@ -1,5 +1,5 @@
 ---
-name: alloy-author
+name: author
 description: Use when the user wants to write down how part of a system works, turn a loose note or conversation into a structured design document, finish one that is incomplete, or decide which kind of document an idea needs. The Alloy catalog is the authority on which types exist; terms of art that should also trigger this include ADR, decision record, statechart, state machine, scenario, acceptance criteria, Gherkin, and ubiquitous language.
 ---
 
@@ -13,9 +13,9 @@ So: make the type choice visible, name the slots as you fill them, and use the c
 
 Look in order, stop at the first hit:
 
-1. `artifact_types/*.md` at the git repo root (you are inside the catalog repo itself)
-2. `.alloy/artifact_types/*.md`, searching from the working directory up to the repo root (vendored install)
-3. `artifact_types/*.md` resolved relative to this `SKILL.md` file, following symlinks (plugin install)
+1. `.alloy/artifact_types/*.md`, searching from the working directory up to the git repo root. A vendored catalog is a deliberate project-level pin, so it wins.
+2. `artifact_types/*.md` at the git repo root. You are inside the catalog repo itself.
+3. `artifact_types/*.md` at the plugin root, two directories above this file. From a shell that is `${CLAUDE_PLUGIN_ROOT}/artifact_types/`.
 
 If none of the three hit, say the catalog is not installed and stop. Without it there is no menu, and types recalled from memory are invented types.
 
@@ -82,23 +82,23 @@ Write the marker **at the slot**, not in a trailing section, so the gap sits whe
 
 `N/A` matters as much as TBD: it is what stops the next session re-asking something the user already declined. "terminal-states: N/A, an account lifecycle never ends" is a finished slot.
 
-Optional slots appear in the file only when filled. So a **core slot missing entirely** means nobody has considered it yet. That is the one real signal of incompleteness, and it is the only thing `/alloy-fit` reports as unconsidered.
+Optional slots appear in the file only when filled. So a **core slot missing entirely** means nobody has considered it yet. That is the one real signal of incompleteness, and it is the only thing `/alloy:fit` reports as unconsidered.
 
 ## 7. Write the file
 
 Use the entry's **Notation & naming** section for format and filename: take the stem from the subject and the suffix from `discovery` (`order.states.drawio.svg`, `checkout.scenarios.md`). Match an existing convention in the repo if one is already there; do not relocate artifacts that exist.
 
-End the file with a one-line provenance footer so the trail back to the catalog lives in the artifact rather than in a chat log. The slug comes first, because `/alloy-fit` reads it as its strongest type signal:
+End the file with a one-line provenance footer so the trail back to the catalog lives in the artifact rather than in a chat log. The slug alone, because the catalog may sit in a plugin cache rather than in the user's repo, and `/alloy:fit` reads it as its strongest type signal:
 
 ```
-<!-- alloy: state-machine (artifact_types/state-machine.md) -->
+<!-- alloy: state-machine -->
 ```
 
 ## 8. Teach on the way out
 
 Close with what is thin, in the entry's own words, and what it will cost downstream:
 
-> Two things are thin. Only the happy path has scenarios, which is the most common defect in this type by a wide margin, and it's the gap most likely to make generated code guess. And nothing says what happens on an illegal event. `artifact_types/scenario.md` covers both under Common gaps.
+> Two things are thin. Only the happy path has scenarios, which is the most common defect in this type by a wide margin, and it's the gap most likely to make generated code guess. And nothing says what happens on an illegal event. The scenario entry covers both under Common gaps.
 
 Then stop. Do not offer a completeness score or percentage; it invites gaming and reads as a gate even when it is not one.
 

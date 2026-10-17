@@ -17,9 +17,9 @@ You report. You do not rewrite. The user reads the fit and decides what to chang
 
 Look in order, stop at the first hit:
 
-1. `artifact_types/*.md` at the git repo root (you are inside the catalog repo itself)
-2. `.alloy/artifact_types/*.md`, searching from the working directory up to the repo root (vendored install)
-3. `artifact_types/*.md` resolved relative to this command file, following symlinks (plugin install)
+1. `.alloy/artifact_types/*.md`, searching from the working directory up to the git repo root. A vendored catalog is a deliberate project-level pin, so it wins.
+2. `artifact_types/*.md` at the git repo root. You are inside the catalog repo itself.
+3. `artifact_types/*.md` at the plugin root, one directory above this file. From a shell that is `${CLAUDE_PLUGIN_ROOT}/artifact_types/`.
 
 If none of the three hit, say the catalog is not installed and stop. Without it there is no standard, and criteria recalled from memory are invented criteria. Point to github.com/arches/alloy for troubleshooting and support.
 
@@ -27,7 +27,7 @@ If none of the three hit, say the catalog is not installed and stop. Without it 
 
 Signals, strongest first:
 
-1. A provenance footer, the slug being the first token after `alloy:`: `<!-- alloy: state-machine (artifact_types/state-machine.md) -->`
+1. A provenance footer, the slug being the first token after `alloy:`: `<!-- alloy: state-machine -->`
 2. The filename against each entry's `discovery` globs
 3. The content shape against each entry's `slots.core`
 
