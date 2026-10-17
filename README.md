@@ -8,14 +8,14 @@ For the idea behind it, start here: [https://streamlinetechconsulting.com/decisi
 
 ## Install
 
-In a Claude Code session:
+In your shell:
 
 ```
-/plugin marketplace add arches/alloy
-/plugin install alloy@alloy
+claude plugin marketplace add arches/alloy
+claude plugin install alloy@alloy
 ```
 
-Nothing lands in your project. The catalog and both skills live in Claude Code's plugin cache.
+Then start a session. Nothing lands in your project: the catalog and both skills live in Claude Code's plugin cache.
 
 ## Use
 
