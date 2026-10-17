@@ -29,7 +29,7 @@ An ADR rarely does anything by itself. Accepting a decision usually means editin
 
 **Use when** a choice closes off alternatives and someone will later ask why. The sharpest signal is that you had to do research or hold a meeting to reach it.
 
-**Not when** you would simply delete the thing once it stopped applying. That is a directive, a choice made in the moment and written down so the next build honors it, and it carries a one-line reason rather than a rationale.
+**Not when** you would simply delete the thing once it stopped applying.
 
 ## ADR or your PR history?
 
@@ -79,7 +79,7 @@ Records are append-only. A decision that changes gets a new record superseding t
 - No rejected options, which is the one thing no other artifact records.
 - Edited in place rather than superseded, which destroys the record of what was believed when.
 - Status never updated, so superseded records read as current.
-- Written for decisions nobody would question, diluting the set until no one reads any of it. If you did no research and held no meeting, this is probably a directive.
+- Written for decisions nobody would question, diluting the set until no one reads any of it.
 
 ## Further reading
 
