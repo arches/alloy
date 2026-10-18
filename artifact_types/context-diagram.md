@@ -8,7 +8,7 @@ aka:
     level-0 data flow diagram,
     C4 system context,
   ]
-discovery: ["*.context.drawio.svg", "*.context.md"]
+discovery: ["*.context.drawio.svg"]
 slots:
   core:
     subject: "Which system is this? Name the one thing the box stands for. If you cannot say what is inside it in a sentence, you have more than one system."
@@ -34,9 +34,9 @@ The arrows are the other half of the content. An arrow labeled "uses" records th
 
 **Not when** the question is what the system is made of rather than what it touches. Use a functional view for that.
 
-## Context diagram or a paragraph?
+## Diagram or a paragraph?
 
-A paragraph can state the same facts, and for a small system it will be shorter. What it cannot do is make the omissions visible. Prose lets you simply not mention the identity provider; a diagram has a conspicuous hole where it should have been. Five boxes can be scanned by someone who then says "you've forgotten the email sender," and five sentences cannot.
+Diagram. A paragraph can state the same facts, and for a small system it will be shorter. What it cannot do is make the omissions visible. Prose lets you simply not mention the identity provider; a diagram has a conspicuous hole where it should have been. Five boxes can be scanned by someone who then says "you've forgotten the email sender," and five sentences cannot.
 
 Small is not a reason to skip it. A three-box diagram still earns its place, because those three boxes are what every later artifact refers back to, and because a system with no external dependencies at all is a real and uncommon finding that you only make by going looking.
 
