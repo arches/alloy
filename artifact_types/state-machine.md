@@ -2,7 +2,14 @@
 name: State machine
 slug: state-machine
 aka: [statechart, state diagram, state transition table, finite state machine]
-discovery: ["*.states.drawio.svg", "*.states.md"]
+discovery:
+  [
+    "*.states.drawio.svg",
+    "*.states.md",
+    "*.states.d2",
+    "*.states.mmd",
+    "*.states.mermaid",
+  ]
 slots:
   core:
     subject: "Whose lifecycle is this? Name one thing that is in exactly one state at a time: an entity, or a single aspect of one, such as an order's payment tracked separately from its fulfillment."
@@ -71,10 +78,11 @@ The completeness trick is to draft it as a table, states down the side and event
 ## Notation & naming
 
 **draw.io**: rounded box = state; arrow labeled `event [guard] / effect` = transition; double border = initial; thick border = terminal; dashed container = composite state or parallel region. File: `<subject>.states.drawio.svg`.
-
+**D2**: nodes for state; `a -> b: event [guard] / effect` for transitions; `style.double-border: true` for initial state; `style.stroke-width: 4` for terminal states; container for composite states or parallel regions. File: `<subject>.states.d2`.
+**Mermaid**: `stateDiagram-v2`; nodes for state; `a --> b : event [guard] / effect` for transitions; `[*] -->` for initial state; `--> [*]` for terminal states; `state s { ... }` with `--` between regions for composite states or parallel regions. File: `<subject>.states.mmd`, or a fenced block in `<subject>.states.md`.
 **Tabular**: rows = source state, columns = event, cells = target state or `x` where the event is illegal. File: `<subject>.states.md`.
 
-Both forms carry the same slots but fail differently, so prefer the table when the question is completeness and the diagram when the question is shape. Both can be included, but must remain in sync.
+Tabular and diagrammatic forms carry the same slots but fail differently, so prefer the table when the question is completeness and the diagram when the question is shape. Both can be included, but must remain in sync.
 
 _Condition_ is reserved here for a guard, the boolean test gating a transition. It never means a state.
 

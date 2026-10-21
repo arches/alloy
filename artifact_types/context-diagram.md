@@ -8,7 +8,8 @@ aka:
     level-0 data flow diagram,
     C4 system context,
   ]
-discovery: ["*.context.drawio.svg"]
+discovery:
+  ["*.context.drawio.svg", "*.context.d2", "*.context.mmd", "*.context.mermaid"]
 slots:
   core:
     subject: "Which system is this? Name the one thing the box stands for. If you cannot say what is inside it in a sentence, you have more than one system."
@@ -72,8 +73,6 @@ Small is not a reason to skip it. A three-box diagram still earns its place, bec
 - **Failure modes**: per external system, what the system does when that one is unavailable. Fill it for the dependencies that sit in a user-facing path.
 
 ## Notation & naming
-
-draw.io, exported as `*.context.drawio.svg` so the diagram stays diffable and viewable in the same file.
 
 - **The subject**: one box, visually heaviest, holding the system's name and its responsibilities. Nothing else inside it. The moment you want to draw something inside, you have started a functional view and should start a new file.
 - **People**: an avatar icon or a rounded box, labeled with the role rather than a name.
