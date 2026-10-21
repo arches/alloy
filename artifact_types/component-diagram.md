@@ -22,7 +22,7 @@ slots:
 
 ## What it is
 
-A component diagram is one level inside the system: the runtime pieces, what each one is accountable for, and which pieces are allowed to talk to which. It is the answer to "what is this thing made of," where the pieces are things that exist while the system is running rather than things that exist in your editor.
+A component diagram is one level inside the system: the runtime pieces, what each one is accountable for, and which pieces are allowed to talk to which. It is the answer to "what is this thing made of," where the pieces are things that exist while the system is running rather than things that exist in your editor. If you write code, the shortest version is that this is the interface and a development view is the implementation: rewrite an element in another language and this diagram is unchanged, because its responsibility and its permitted dependencies are unchanged.
 
 That distinction is the discipline. The most common version of this diagram is not a component diagram at all, it is a picture of the directory tree with `utils` and `lib` and `components` drawn as boxes. The test is whether you could point at the element while the system is running. A request handler, a scheduled job, a cache, a queue consumer: all pointable. A folder is not. Where your code lives is a real question with a real answer, and it belongs in a development view.
 
