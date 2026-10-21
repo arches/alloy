@@ -4,7 +4,7 @@ Alloy is a catalog of established techniques for describing software systems, an
 
 You author the artifacts. The code is generated from them.
 
-# Philosophy
+## Philosophy
 
 Typing code used to be where a lot of decisions got made. Product may have decided the feature direction in advance, but every line we wrote also proposed and settled more questions: what happens on a timeout, which value wins when two sources disagree, what does an empty list look like. We made those calls at the keyboard, as we typed.
 
@@ -12,37 +12,37 @@ But that’s not what code is for anymore. Code just runs.
 
 If you've built anything with a coding agent lately, you know where the time goes: a lot of explaining. What the feature should do, what it shouldn't. What we decided last week, and why. Then correcting the LLM when it guesses wrong. Then explaining everything again next session, because it forgot.
 
-What we need is a way to organize this information; a more structured approach to these tools that have historically been very helpful but also very ad hoc. And, we need a methodical way to turn these disparate artifacts into a cohesive codebase.
+What we need is a way to organize this information; a more structured approach to managing the decisions we've made. And, we need a methodical way to turn them into a cohesive codebase.
 
 Enter Alloy.
 
 _For more on this concept, see [https://streamlinetechconsulting.com/decision-engineering](https://streamlinetechconsulting.com/decision-engineering)_
 
-## The catalog
-
-| Artifact type                                                          | What it pins down                                                             |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [Context diagram](artifact_types/context-diagram.md)                   | What the system is responsible for, and everything outside it that it touches |
-| [Component diagram](artifact_types/component-diagram.md)               | What the system is made of, and which parts may depend on which               |
-| [Data model](artifact_types/data-model.md)                             | What the system stores, and what must always be true of it                    |
-| [State machine](artifact_types/state-machine.md)                       | One thing's lifecycle, and which transitions are illegal                      |
-| [Scenario set](artifact_types/scenario.md)                             | What the system does from outside, in terms someone can check                 |
-| [Glossary](artifact_types/glossary.md)                                 | The one spelling of each term, and the names it gets mistaken for             |
-| [Architecture decision record](artifact_types/adr.md)                  | One decision, the alternatives it closed off, and why they lost               |
-| [Architecture principles](artifact_types/principles.md)                | A rule that holds across decisions, and what following it costs               |
-| [Technology standards catalog](artifact_types/technology-standards.md) | One selection per kind of choice, so nobody re-picks it                       |
-
-Every entry lists the other names its type goes by, so an ERD, a statechart, a Gherkin feature, or a ubiquitous language all land somewhere. Each file reads on its own, with or without the plugin installed.
-
 ## A starting point, not a checklist
 
-The catalog is not a complete account of how to describe software, and it never will be. The only claim it makes for the entries it has is that these are forms which have worked well for a lot of people over a long time, so you do not have to invent one from scratch.
+The catalog is not a complete account of how to describe software. The only claim it makes for the entries it has is that these are forms which have worked well for a lot of people over a long time, so you do not have to invent one from scratch.
 
-Describe your system in whatever way makes it clearest. If that is a table, a diagram with no established name, or a page of prose about the one thing everybody gets wrong, write that. Documentation that already works does not need converting, and a project using three entries from this list and nothing else is a project using the catalog correctly.
+Describe your system in whatever way makes it clearest for you. Documentation that already works does not need converting. What a catalog buys you is a shared vocabulary and a known shape: a name two people can agree on, and a list of what tends to be missing.
 
-What the entries buy you is a shared vocabulary and a known shape: a name two people can agree on, and a list of what tends to be missing. Where no entry fits, the catalog has nothing to say and you lose nothing by ignoring it.
+If you find a gap, see if you can find some prior art (you probably can) so you don't have to reinvent the wheel. And consider a PR to push it back into this catalog for everyone else.
 
-Entries do get added. One earns its place only if people outside this repo already use its name, and only if it answers a question no existing entry answers. UML alone offers fourteen diagram types, so without that gate the catalog becomes a list instead of a choice, which is the one failure it cannot recover from.
+## Workflow
+
+_⚠️ indicates a step under construction_
+
+✅ **Author the artifacts.** Pick a part of the system and describe it in the type that fits. One note becomes one artifact, and there is no conversion step to get through first.
+
+✅ **Fit each one.** `/alloy:fit <file>` measures a single artifact against its type and reports what is unconsidered, what is thin, and what is off-pattern.
+
+✅ **Rationalize the set.** `/alloy:crossfit` measures the artifacts against each other rather than against their types: a state no scenario reaches, a term the glossary spells one way and the data model spells another, an entity nothing stores.
+
+⚠️ **Generate.** `/alloy:generate` updates the code from the artifacts, landing it where the project already puts code, as a reviewable diff.
+
+⚠️ **Review the decisions.** The diff will contain choices the artifacts did not settle. Any decisions worth adjusting or validating should be pulled back into an artifact to inform future generation runs.
+
+✅ **Repeat.** The artifacts are the source of truth for intent, so the next change starts with them and not with the code.
+
+Nothing in the loop blocks. You can generate from a half-filled set, and a fit is a report rather than a gate.
 
 ## Install
 
@@ -53,15 +53,15 @@ claude plugin marketplace add arches/alloy
 claude plugin install alloy@alloy
 ```
 
-Then start a session. Nothing lands in your project: the catalog and both entry points live in Claude Code's plugin cache.
+Then start a session. Nothing lands in your project: the catalog, the skill, and the commands live in Claude Code's plugin cache.
 
 ## Use
 
-`alloy:author` fires on its own when you set out to describe part of a system. You do not call it by name; it picks the artifact type, says which one it picked and what it rejected, and interviews you for the slots that type requires.
+Step 1 needs no command. `alloy:author` is a skill, so it fires on intent: set out to describe part of a system and it picks the type, says which one it picked and which it rejected, and interviews you for the slots that type requires. The artifact types are what you learn, not the tooling.
 
-`/alloy:fit <file>` is explicit. Point it at an artifact you already have and it reports what is unconsidered, what is thin, and what is off-pattern, measured against that type's entry.
+The later steps are commands, invoked by name, because no conversational signal reliably means "check this file" or "generate now."
 
-Neither one blocks. A half-filled artifact is a valid artifact.
+A half-filled artifact is a valid artifact, at every step.
 
 ## Update
 
