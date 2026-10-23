@@ -28,19 +28,12 @@ If you find a gap, see if you can find some prior art (you probably can) so you 
 
 ## Workflow
 
-_⚠️ indicates a step under construction_
-
-✅ **Author the artifacts.** Pick a part of the system and describe it in the type that fits. One note becomes one artifact, and there is no conversion step to get through first.
-
-✅ **Fit each one.** `/alloy:fit <file>` measures a single artifact against its type and reports what is unconsidered, what is thin, and what is off-pattern.
-
-✅ **Rationalize the set.** `/alloy:crossfit` measures the artifacts against each other rather than against their types: a state no scenario reaches, a term the glossary spells one way and the data model spells another, an entity nothing stores.
-
-⚠️ **Generate.** `/alloy:generate` updates the code from the artifacts, landing it where the project already puts code, as a reviewable diff.
-
-⚠️ **Review the decisions.** The diff will contain choices the artifacts did not settle. Any decisions worth adjusting or validating should be pulled back into an artifact to inform future generation runs.
-
-✅ **Repeat.** The artifacts are the source of truth for intent, so the next change starts with them and not with the code.
+- **Author the artifacts.** Pick a part of the system and describe it in the type that fits. One note becomes one artifact, and there is no conversion step to get through first.
+- **Fit each one.** `/alloy:fit <file>` measures a single artifact against its type and reports what is unconsidered, what is thin, and what is off-pattern.
+- **Rationalize the set.** `/alloy:crossfit` measures the artifacts against each other rather than against their types: a state no scenario reaches, a term the glossary spells one way and the data model spells another, an entity nothing stores.
+  -️ **Generate.** `/alloy:generate` updates the code from the artifacts, landing it where the project already puts code, as a reviewable diff.
+  -️ **Review the decisions.** The diff will contain choices the artifacts did not settle. Any decisions worth adjusting or validating should be pulled back into an artifact to inform future generation runs.
+- **Repeat.** The artifacts are the source of truth for intent, so the next change starts with them and not with the code.
 
 Nothing in the loop blocks. You can generate from a half-filled set, and a fit is a report rather than a gate.
 
@@ -55,13 +48,15 @@ claude plugin install alloy@alloy
 
 Then start a session. Nothing lands in your project: the catalog, the skill, and the commands live in Claude Code's plugin cache.
 
-## Use
+## Usage
 
-Step 1 needs no command. `alloy:author` is a skill, so it fires on intent: set out to describe part of a system and it picks the type, says which one it picked and which it rejected, and interviews you for the slots that type requires. The artifact types are what you learn, not the tooling.
+Step 1 needs no command. `alloy:author` is a skill, so it fires on intent and helps you construct artifacts.
 
-The later steps are commands, invoked by name, because no conversational signal reliably means "check this file" or "generate now."
+Iterate on artifacts with the `/alloy:fit <artifact file>` command, to nudge the artifact toward the standard for its type.
 
-A half-filled artifact is a valid artifact, at every step.
+Iterate on your overall system design with `/alloy:crossfit` command, to rationalize artifacts against each other and find gaps.
+
+Use `/alloy:generate` to turn artifact changes into code changes. Review `ASSUMPTIONS.md` to see what the generation had to assume in order to make progress. Use `DIRECTIVES.md` sparingly to guide the generation. Ideally, guidance takes the form of additional artifact changes - that's the more durable way to adjust your system description.
 
 ## Update
 
