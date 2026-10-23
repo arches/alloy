@@ -7,9 +7,15 @@ argument-hint: "[what to build: a scenario, an entity, a feature, or nothing for
 
 What to build: `$ARGUMENTS`. If empty, propose a scope and ask.
 
-The artifacts are the specification. This command reads them and writes code.
+The artifacts are the specification, and they outrank everything else in the room. They outrank your judgment. They outrank what the framework usually does. They outrank what would be quicker. They outrank the repository itself, which carries no authority at all, because the repository is output. Where an artifact says something, that is the answer, and finding it inconvenient is never a reason to do otherwise.
 
-It also reads the existing codebase, for exactly one purpose: to learn **where things go and how they are written**. Directory layout, naming, framework idiom, test conventions. Never to learn what the system should do. If the code and the artifacts disagree about behavior, the artifacts are right and the disagreement is worth reporting.
+Reading them is not the same as applying them. An artifact you read and then did not act on is indistinguishable, from outside, from one you never opened. The plan is where you show the difference.
+
+Two things follow, and they are the ones most easily lost. An artifact that is not part of the change you are generating is still binding: the diff says what to build, the whole set says what is permitted. And an artifact that constrains how you work, rather than what you produce, binds just as hard as one that describes the system.
+
+It also reads the existing codebase, for exactly one purpose: to learn **the shape of the code you are about to write**. Directory layout, naming, framework idiom, how existing tests are structured. Never to learn what the system should do. If the code and the artifacts disagree about behavior, the artifacts are right and the disagreement is worth reporting.
+
+That purpose does not extend to **what you run**. E.g. finding a test file is not permission to invoke the test runner directly. Commands come from the artifacts, never from inference off the repository, and the next section says where to get them.
 
 Two phases, and the first one does not end until the user says so.
 
@@ -36,7 +42,20 @@ They are session-scoped by design. Do not treat them as durable, do not fold the
 
 Clearing the file is the user's job, which means it is sometimes a leftover from last session rather than instructions for this one. So quote the directives back in the plan, in full. A stale directive that gets obeyed silently is indistinguishable from one the user meant, and showing them costs three lines.
 
-## 3. Keep going
+## 3. Work out how to run things
+
+The artifacts govern your own actions, not only your output. Before running a single command, derive from them how this project is operated, and state it in the plan.
+
+- **Which environment the work happens in.** A deployment view's local environment is binding. If it says Docker Compose, tests run inside Compose, and running them on the host because the host happens to work is a bypass, not a shortcut.
+- **Which commands exist.** The build interface, the test command, the migration command. A technology standards catalog or a development view answers this.
+- **Which package manager and runner.** The catalog has a row for it. The lockfile on disk is evidence of what somebody once did, not a decision.
+- **Which paths are out of bounds.** Principles and directives both carry these.
+
+If an artifact answers any of these, it is binding and you do not get to prefer something faster. If none of them answers, that is an assumption: say so in the plan, pick the most conservative option, and write it into `ASSUMPTIONS.md` with the artifact that should have said.
+
+The failure this prevents is specific and quiet. A command that runs on the host, succeeds, and produces a green tree looks exactly like a command that was supposed to run. Nobody finds out until somebody else gets a different result, and by then the artifact that said otherwise has been contradicted twenty commits deep.
+
+## 4. Keep going
 
 Artifacts will contradict each other and artifacts will be incomplete. Both are normal rather than exceptional, and stopping on either would mean never generating anything. Three moves, in order of preference.
 
@@ -48,9 +67,13 @@ Artifacts will contradict each other and artifacts will be incomplete. Both are 
 
 The thing that makes this safe is not avoiding assumptions, it is that none of them is silent.
 
-## 4. Propose a plan
+## 5. Propose a plan
 
 The plan is the deliverable of this phase. Present it in the conversation. Write it to a file only if the user asks.
+
+**Every artifact, accounted for.** List each artifact you read, with one line saying what it constrains in this run, or why it does not apply. One line each, including the ones that turned out to be irrelevant, because "irrelevant" is a judgment the user is entitled to overrule. An artifact missing from this list was not read, whatever you believe about it.
+
+This is the section that catches the specific failure where a file sits in the repository, says something binding, and gets passed over because it was not part of the diff.
 
 **Scope.** What this run builds, and what it leaves. Generating a whole system in one pass produces a diff nobody can review, which defeats the point. Propose a slice that stands on its own and say what you are deferring.
 
@@ -58,13 +81,15 @@ The plan is the deliverable of this phase. Present it in the conversation. Write
 
 **What is contested, and how you scoped around it.** Any contradiction you found, and the narrowing you propose to avoid having to resolve it. If you could not narrow around one, say what you intend to assume and why.
 
+**How you will run things.** The environment, the test command, the build command, the package manager, each with the artifact it came from. This is cheap to state and it is the difference between the user correcting you now and discovering it twenty commits later.
+
 **Where the code lands.** Name the directories and files, matched to what the project already does. If the project is empty there is no convention to match, so propose a layout explicitly and expect to discuss it rather than assuming one.
 
 **The commit sequence.** A numbered list. For each: one line on what it does, which artifact it derives from, and what its tests cover.
 
 **The test strategy**, per the section below.
 
-## 5. Iterate
+## 6. Iterate
 
 Expect several rounds. The rule that makes this work:
 
@@ -76,9 +101,13 @@ Only three kinds of change belong in the plan itself rather than in an artifact:
 
 Do not generate anything until the user says to.
 
-## 6. Generate, commit by commit
+## 7. Generate, commit by commit
 
-Work the sequence in order. After each commit, say in one line what it did, and continue. Expect to be interrupted.
+Work the sequence in order, and **stop after every commit**. Say what the commit did, name the files it touched, and say what the next one will be. Then wait.
+
+This is a review loop, not a batch job. Small self-contained commits exist so a wrong assumption gets caught at commit two instead of commit twenty, and that only pays off if there is a gap to catch it in. Running the whole sequence and reporting at the end produces exactly the unreviewable diff the sequence was designed to prevent.
+
+Continue when the user says to. If they flag something instead, stop and go back to the artifact.
 
 **Every commit leaves the tree green.** It builds, the tests pass, nothing is half-wired. A commit that needs the next one to work is not self-contained, and reviewing it separately is then impossible, which is the whole reason for the sequence.
 
@@ -90,7 +119,7 @@ Work the sequence in order. After each commit, say in one line what it did, and 
 
 **Each commit message cites its artifact.** The subject says what changed; the body names the artifact file it derives from and the artifact commit id from step 1. That trail is what lets a reviewer check the code against the specification rather than against their expectations.
 
-**When the user flags something, stop and go back to the artifact.** Not to the code. The same rule as step 5, and this is where it gets tested, because fixing the code directly is always faster in the moment and always wrong.
+**When the user flags something, stop and go back to the artifact.** Not to the code. The same rule as step 6, and this is where it gets tested, because fixing the code directly is always faster in the moment and always wrong.
 
 ## The assumptions file
 
@@ -137,7 +166,10 @@ Tests and their code go in the same commit. A commit that adds failing tests doe
 
 - **Never invent anything silently.** Assumptions are expected and necessary; unrecorded ones are the defect. Every one goes in `ASSUMPTIONS.md` as you make it, with the artifact that should have answered it. An assumption nobody can see looks exactly like a specification.
 - **Never edit an artifact without saying so.** Propose it, get agreement, then make the change and re-plan. The artifacts are the user's, and a generator that edits its own specification is not a generator.
-- **Read code for convention, never for intent.** Where it goes and how it is written, yes. What the system does, never.
+- **Read code for convention, never for intent.** The shape of what you write, yes. What the system does, never. What you execute, never: commands come from artifacts.
+- **Stop after every commit and wait.** Never run the sequence to completion unprompted. The review gap is the whole point of generating in commits rather than in one pass.
+- **Silence about an artifact is not neutrality.** Every artifact gets a line in the plan. Passing over one without saying so is the single failure this command is least able to recover from, because nothing downstream will notice.
+- **Never run a command the artifacts did not sanction.** If a deployment view names the local environment, work inside it. If a technology standards catalog names the runner, use it. Preferring a faster path that happens to work is the same error as hand-editing generated code, and it is harder to spot because the result looks right.
 - **Do not scaffold over an existing layout.** Match what the project does. Propose a structure only where there is none.
 - **No commit that spans two artifact decisions**, however small each one is.
 - **Do not pad the test suite.** Tests derive from stated constraints. A test nothing in the artifacts calls for is a test that will be wrong when the artifacts change.
