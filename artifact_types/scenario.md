@@ -12,7 +12,14 @@ slots:
     then: "What can the actor observe afterward that proves it worked?"
     alternate-paths: "What else can happen? Name the paths that end differently, and the outcome on each."
   optional:
-    [example-data, examples-table, out-of-scope, quality-expectation, status]
+    [
+      background,
+      example-data,
+      examples-table,
+      out-of-scope,
+      quality-expectation,
+      status,
+    ]
 ---
 
 ## What it is
@@ -63,6 +70,7 @@ Put real values in. If you cannot, that is a finding rather than a formatting pr
 
 ## Optional slots
 
+- **Background**: the precondition every scenario in the set shares, stated once. It earns its place the moment the same `Given` opens all of them, and the best version names a state the state machine already has rather than restating the world.
 - **Example data block**: a separate table of values, for when concrete data clutters the steps themselves.
 - **Examples table**: a `Scenario Outline` where one shape varies only by data.
 - **Out of scope**: what this deliberately does not cover.
@@ -71,15 +79,22 @@ Put real values in. If you cannot, that is a finding rather than a formatting pr
 
 ## Notation & naming
 
-**Gherkin**: `Feature` / `Scenario` / `Given`, `When`, `Then`, with `Scenario Outline` plus `Examples` for data variation. File: `<capability>.scenarios.md`, or `*.feature` where the project already runs Cucumber.
+Two forms, and the choice is made on branch count.
 
-**Use case**: Cockburn's form, a main success scenario as numbered steps with extensions numbered against the step they branch from, `3a` and `3b`. Better than Gherkin when one goal has many branches, because the branch point stays visible.
+**Gherkin**: `Feature` / `Scenario` / `Given`, `When`, `Then`, with `Scenario Outline` plus `Examples` for data variation, and `Background` for a precondition the whole set shares. File: `<capability>.scenarios.md`, or `*.feature` where the project already runs Cucumber.
+
+**Use case**: Cockburn's form, a main success scenario as numbered steps, with extensions numbered against the step they branch from, `3a` and `3b`.
+
+Gherkin holds up to about three branches. Past that, use the extension form, because each Gherkin scenario restates the whole path to reach its branch point: six branches off one step is six Givens and six Whens whose only varying line is the Then, where the extension form is one path with six branches hanging off step 3. The difference is not line count, it is that the branch point stays visible instead of being reconstructed by reading, and a set whose shape you can see is one you can keep in your head.
+
+File: `<capability>.scenarios.md`.
 
 A step that names a class, an endpoint, or a table has crossed the boundary and belongs in a different artifact.
 
 ## Common gaps
 
 - `Given` written as a click-through setup rather than a statement of state.
+- The same `Given` restated in every scenario. Either the set is scoped too wide, or a shared precondition wants stating once in `Background`, ideally as a state the state machine already names.
 - Many near-duplicate scenarios on one path and none at all on the error paths.
 - Acceptance criteria bullets lifted from a ticket, which usually have no Given, so nothing anchors them, and which get discarded when the ticket closes even though the capability outlives it.
 - A set that covers a whole journey rather than one capability, so the goal stops being checkable.

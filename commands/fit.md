@@ -79,11 +79,13 @@ Never measure a custom artifact against a catalog entry. If the user asks which 
 
 Most actionable first. Omit any group that is empty. Name the slot for every finding.
 
-**Unconsidered.** Core slots absent from the file, with no TBD and no N/A. This is the only real signal of incompleteness. Phrase each one as the question that would resolve it, reusing the entry's own slot question.
+**Unconsidered.** Core slots with nothing in them: absent from the file, or still holding only the question a skeleton put there, and carrying no TBD and no N/A. A comment is scaffolding rather than an answer, so a slot that still holds one has not been considered. This is the only real signal of incompleteness. Phrase each one as the question that would resolve it, reusing the entry's own slot question.
+
+If nothing in the file has been filled in at all, say it is still a skeleton and stop there. Reporting every slot of an untouched file reads as a verdict on work nobody has done yet, and the useful thing to say is which slot to start with.
 
 **Thin.** Slots that are present but are not doing what the entry asks: states that are verbs, a Given that is a UI script, an ADR context written so the decision looks easy. Quote at most one line of the entry per finding, and say what the weakness will cost downstream.
 
-**Off-pattern.** Notation and naming only. The filename against `discovery`, the structure against **Notation & naming**, a term used against a definition the file itself carries. Cheap to fix, so keep this group terse.
+**Off-pattern.** Notation and naming only. The filename against `discovery`, the structure against **Notation & naming**, a term used against a definition the file itself carries. Scaffolding left behind belongs here too, in a file that is otherwise filled in: a placeholder like `<capability>` still standing as the title, a worked `ALPHA`/`BETA` notation example never deleted, a comment answered in the prose beside it but left in place. Cheap to fix, so keep this group terse.
 
 **Open on purpose.** TBD and N/A slots, listed and otherwise left alone. These are finished slots. Listing them is how the user sees the difference between what they declined and what they never got to.
 
@@ -95,7 +97,7 @@ Name the single thing most worth doing next, then stop. If that thing is authori
 
 - **No score, ever.** No percentage, no "4 of 6 slots", no grade. The command name invites a number, which is precisely why it is out of bounds: a number gets gamed, and it reads as a gate even when nothing is gated.
 - **Nothing blocks.** A thin artifact is a valid artifact. Most artifacts are partly undecided when written, and that is the normal case.
-- **TBD and N/A are answers.** Never report either as a gap.
+- **TBD and N/A are answers; a comment is not.** Never report a TBD or an N/A as a gap: the user wrote it, and it records a question they considered. A slot still holding the question a skeleton put there records the opposite, and belongs in Unconsidered.
 - **Report, don't rewrite.** Make no edits to the file unless the user asks for them after reading the fit.
 - **Never invent domain facts.** A plausible missing state is still a guess, and a guess that looks decided will not be revisited. Name the gap and leave it.
 - **Visual artifacts are text.** A `.drawio.svg` is XML, so read it and check its shapes and labels against **Notation & naming** like any other file. If you truly cannot parse one, say that rather than reporting an empty fit.

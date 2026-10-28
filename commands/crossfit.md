@@ -29,6 +29,8 @@ Collect every entry's `discovery` globs and run them across the scope. Then find
 
 Say what you found, as a list, before analyzing anything. The user needs to know what was in scope, because a file you failed to discover is invisible in the report and looks like agreement.
 
+Mark the ones that are still skeletons, meaning nothing filled in outside their scaffolding comments. They take no part in anything below, since a file with no content cannot agree or disagree with another. **If every artifact is a skeleton, say so and stop.** An empty set produces a report with no findings, and a report with no findings reads as a coherent design rather than an undescribed one.
+
 If you found one artifact, say there is nothing to cross-check and stop. If you found none, say the discovery globs matched nothing and name a few of the globs, since the usual cause is a naming convention that was never adopted.
 
 ## 3. Build the shared vocabulary
@@ -38,6 +40,8 @@ Read every artifact in full, then list the named things that appear in more than
 entity names, state names, element names, actor and role names, external system names, environment names, technology selections, term definitions, screen names.
 
 A name appearing in exactly one artifact is not yet interesting. A name appearing in two is where every finding comes from.
+
+Read content only. A name that appears in a scaffolding comment, a placeholder, or a worked notation example is not in the artifact's vocabulary, and two skeletons sharing an `ALPHA` from the same example are not two artifacts agreeing about anything.
 
 ## 4. Find the disagreements
 
@@ -50,7 +54,7 @@ The checks that fall out of the catalog as it stands:
 - A state machine's states against the data model's enumerated values for the same entity. The same list written twice, and the cheapest check in the set.
 - A technology standards selection against a technology named on a component diagram.
 - A context diagram's external systems against a component diagram's external dependencies.
-- A scenario's Given naming a state the state machine does not have.
+- A scenario's Given, or the `Background` a whole set shares, naming a state the state machine does not have.
 - A scenario's actor against the roles on the context diagram.
 - An ADR's decision against a technology standards selection, or against a principle it never claims to supersede.
 - A deployment view's forbidden connections against a component diagram's.
@@ -73,6 +77,8 @@ The point of this pass is timing. A question raised here costs one line in one a
 Answer four questions in your own words.
 
 **Could someone build this without asking you anything?** The sharpest version of the question, because the audience is a generator and a generator will not ask, it will invent. Walk the set looking for the places where something would have to be made up: an unstated default, an unnamed behavior, a decision everybody deferred. Name them specifically. "This is underspecified" is not a finding. "Nothing says what happens to a part-shipped order that is then cancelled" is.
+
+A `TBD` is not one of these. The user wrote it, so reading it back is a completeness finding with one artifact open, which belongs to `/alloy:fit`. A TBD becomes a finding here only when something else leans on it: a scenario whose Given names a state the state machine has left open, a component responsible for data the data model has not decided how to hold. Then the finding is the dependency, not the TBD, and it is worth more than either artifact shows alone.
 
 **Do any two artifacts imply different systems?** This is where the subtle disagreements live, and they never collide on a name. A principle saying complexity must be earned, beside a component diagram with fourteen elements. A scenario implying live updates, beside a deployment view with no mechanism for them. An ADR justified by scale, beside a deployment view with one instance of everything. Each artifact looks fine alone and together they describe two different projects.
 

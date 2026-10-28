@@ -52,13 +52,18 @@ Then start a session. Nothing lands in your project: the catalog, the skill, and
 
 ## Usage
 
-Step 1 needs no command. `alloy:author` is a skill, so it fires on intent and helps you construct artifacts.
+Strong suggestion: don't let Claude touch the artifacts very much. Since Claude handles 100% of the code, wrestling with the artifacts is how you experience the system. Crafting the artifacts manually with intention is how you develop your mental model of the system.
 
-Iterate on artifacts with the `/alloy:fit <artifact file>` command, to nudge the artifact toward the standard for its type.
+`/alloy:skeleton` shows the full catalog of artifact types.
+`/alloy:skeleton <type> <subject>` creates a new artifact.
+
+There's a skill that fires on intent, so you don't need to use the commands directly. The skill will help you work the artfact types and how to fill them out.
+
+Iterate on artifacts with the `/alloy:fit <artifact file>` command, to get suggestions about best practices and how to build a more standardized artifact.
 
 Iterate on your overall system design with `/alloy:crossfit` command, to rationalize artifacts against each other and find gaps.
 
-Use `/alloy:generate` to turn artifact changes into code changes. Review `ASSUMPTIONS.md` to see what the generation had to assume in order to make progress. Use `DIRECTIVES.md` sparingly to guide the generation. Ideally, guidance takes the form of additional artifact changes - that's the more durable way to adjust your system description.
+Use `/alloy:generate` to turn artifact changes into code changes. Review `ASSUMPTIONS.md` to see what the generation had to assume in order to make progress. Use `DIRECTIVES.md` sparingly to guide the generation. Ideally, guidance takes the form of additional artifact changes - that's the more durable way to adjust your system description. Neither are versioned.
 
 ## Update
 
