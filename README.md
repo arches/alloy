@@ -18,6 +18,8 @@ Enter Alloy.
 
 _For more on this concept, see [https://streamlinetechconsulting.com/decision-engineering](https://streamlinetechconsulting.com/decision-engineering)_
 
+_For an example project developed using Alloy, see [arches/shortlist](https://github.com/arches/shortlist)_
+
 ## A starting point, not a checklist
 
 The catalog is not a complete account of how to describe software. The only claim it makes for the entries it has is that these are forms which have worked well for a lot of people over a long time, so you do not have to invent one from scratch.
